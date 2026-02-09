@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    image: heyama-backend:local
+    container_name: heyama-app
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "3001:3001"
+    networks:
+      - heyama-net
+
+networks:
+  heyama-net:
+    external: true
