@@ -1,15 +1,29 @@
 services:
-  app:
+  backend:
     build: .
-    image: heyama-backend:local
-    container_name: heyama-app
-    restart: unless-stopped
-    env_file: .env
+    container_name: heyama-backend
     ports:
-      - "3001:3001"
-    networks:
-      - heyama-net
+      - "3000:3000" 
+       # Your backend port
+    env_file:
+      - .env
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/heyama_db  # ← Key: use 'mongo' as hostname, 'heyama_db' as your DB na>    depends_on:
+      - mongo  # Ensures Mongo starts first
+    restart: always
 
-networks:
-  heyama-net:
-    external: true
+  mongo:
+    image: mongo:7  # Downloads the MongoDB image automatically
+    container_name: mongo
+    ports:
+      - "27017:27017"  # Optional: exposes Mongo to host (for tools like Mongo Compass if needed)
+    volumes:
+      - mongo_data:/data/db  # Persists data even after down/restart
+    restart: always
+    # Optional security: Add root user/password for prod
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: admin
+    #   MONGO_INITDB_ROOT_PASSWORD: your_secure_password
+    # Then update MONGO_URI above to: mongodb://admin:your_secure_password@mongo:27017/heyama_db?authSource=ad>
+volumes:
+  mongo_data:  # Named volume for data persistence

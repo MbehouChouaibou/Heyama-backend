@@ -12,12 +12,11 @@ RUN npm install
 
 # 5. Copy source code
 COPY . .
-
 # 6. Build NestJS
 RUN npm run build
 
 # 7. Expose backend port
-EXPOSE 3001
+EXPOSE 3000
 
 # 8. Run the app
 CMD ["node", "dist/main.js"]

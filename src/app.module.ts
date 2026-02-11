@@ -8,7 +8,7 @@ import { ObjectsModule } from './objects/objects.module';
 @Module({
   imports: [
     MongooseModule.forRoot(
-      process.env.MONGO_URI ?? 'mongodb://mongo:27017/mydb',
+      process.env.MONGO_URI as string,
       {
         connectionFactory: (connection) => {
           console.log('MongoDB connected');
